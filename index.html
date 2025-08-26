@@ -40,108 +40,29 @@
         </h1>
         <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-prose">
             Our first bold bet is **Project Keystone**, building the trust rails for India's $400B+ real estate market.
-            Join our network to collaborate on future ventures.
+            We are actively looking for collaborators.
         </p>
 
-        <!-- Form and Message -->
-        <div id="form-container" class="w-full max-w-sm">
-            <!-- Netlify Form -->
-            <form id="waitlist-form" name="waitlist" method="POST" data-netlify="true" class="w-full flex flex-col items-center space-y-4">
-                <input type="hidden" name="form-name" value="waitlist" />
-                <input
-                    type="email"
-                    name="email"
-                    id="email-input"
-                    class="w-full px-4 py-3 rounded-xl bg-gray-800 text-gray-200 placeholder-gray-500 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
-                    placeholder="Enter your email address"
-                    aria-label="Email address"
-                    required
-                />
-                <button
-                    type="submit"
-                    id="submit-button"
-                    class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold shadow-lg hover:from-teal-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2"
-                >
-                    <span>Join our Network</span>
-                </button>
-            </form>
-            <div id="message-box" class="hidden mt-4 p-4 rounded-xl bg-gray-800 text-white border border-gray-700 text-center transition-opacity duration-500 opacity-0"></div>
-        </div>
+        <!-- Mailto button -->
+        <a href="mailto:rohit@kineticblume.com"
+            class="w-full max-w-sm px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold shadow-lg hover:from-teal-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2"
+        >
+            <svg class="w-5 h-5 -rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+            <span>Initiate Contact Protocol</span>
+        </a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const content = document.getElementById('content');
-            const form = document.getElementById('waitlist-form');
-            const submitButton = document.getElementById('submit-button');
-            const messageBox = document.getElementById('message-box');
             
             // Fade in the main content
             setTimeout(() => {
                 content.style.opacity = '1';
                 content.style.transform = 'translateY(0)';
             }, 100);
-
-            // Function to show a message
-            const showMessage = (text, isError = false) => {
-                messageBox.innerText = text;
-                messageBox.classList.remove('hidden');
-                messageBox.classList.remove('bg-gray-800');
-                messageBox.classList.remove('border-gray-700');
-                if (isError) {
-                    messageBox.classList.add('bg-red-800', 'border-red-700');
-                } else {
-                    messageBox.classList.add('bg-green-800', 'border-green-700');
-                }
-                setTimeout(() => {
-                    messageBox.classList.add('opacity-100');
-                }, 10);
-            };
-
-            // Handle form submission
-            form.addEventListener('submit', async (e) => {
-                // Prevent the default form submission to handle it manually
-                e.preventDefault();
-                
-                // Get the form data
-                const formData = new FormData(form);
-                const email = formData.get('email');
-                
-                // Simple client-side validation
-                if (!email || !email.includes('@')) {
-                    showMessage('Please enter a valid email address.', true);
-                    return;
-                }
-
-                // Show loading state
-                submitButton.disabled = true;
-                submitButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                        </svg><span> Submitting...</span>`;
-                
-                try {
-                    // Submit the form data to Netlify's Forms endpoint
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: new URLSearchParams(formData).toString(),
-                    });
-
-                    if (response.ok) {
-                        showMessage('Thank you! We will be in touch with an invitation to our network.');
-                        form.classList.add('hidden');
-                    } else {
-                        throw new Error('Form submission failed.');
-                    }
-                } catch (error) {
-                    showMessage('An error occurred. Please try again later.', true);
-                    console.error('Error submitting form:', error);
-                } finally {
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = `<span>Join our Network</span>`;
-                }
-            });
         });
     </script>
 </body>
