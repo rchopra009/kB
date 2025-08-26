@@ -3,258 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kinetic Blume - Venture Lab</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <title>Kinetic Blume</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- For a custom font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        /* Base styles for a clean, modern look */
-        * {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            box-sizing: border-box;
-        }
-
         body {
-            background-color: #0d0d12;
-            color: #d1d5db; /* Light gray for body text */
-            /* Removed overflow: hidden to allow scrolling */
+            font-family: 'Inter', sans-serif;
+            background-color: #0c0a09; /* Matches bg-gray-950 */
         }
-
-        /* Canvas for the 3D background */
-        #threejs-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            pointer-events: none;
+        .kinetic-bg {
+            animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        
-        /* Centered content container */
-        .main-content {
-            position: relative;
-            z-index: 10;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 2rem;
-            padding-bottom: 4rem; /* Added extra bottom padding for visibility */
-            text-align: center;
+        @keyframes pulse-slow {
+            0%, 100% { transform: scale(1) translate(-50%, -50%); opacity: 0.1; }
+            50% { transform: scale(1.2) translate(-50%, -50%); opacity: 0.05; }
         }
-
-        /* Gradient for text that matches logo colors */
-        .gradient-text {
-            background-image: linear-gradient(to right, #008080, #ff8000);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradient-shift 4s ease-in-out infinite;
-            background-size: 200% auto;
-            letter-spacing: -0.05em; /* Tighter letter spacing for impact */
-        }
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Subtle pulsing animation for the CTA */
-        @keyframes pulse-light {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
-
-        .cta-button {
-            animation: pulse-light 2s infinite ease-in-out;
-        }
-        
-        .cta-button:hover {
-            animation: none; /* Stop the animation on hover for a cleaner feel */
-            box-shadow: 0 0 40px rgba(255, 128, 0, 0.4);
-        }
-
     </style>
 </head>
-<body>
-    <!-- Three.js Canvas for the dynamic background -->
-    <canvas id="threejs-canvas"></canvas>
+<body class="min-h-screen text-white flex items-center justify-center p-4 overflow-hidden">
+    <!-- Background kinetic particles -->
+    <div class="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500 kinetic-bg"></div>
+    <div class="absolute top-1/4 left-1/4 w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500 kinetic-bg" style="animation-delay: 1.5s;"></div>
 
-    <!-- Main content container -->
-    <div class="main-content">
-        <!-- Logo and Brand Name -->
-        <div class="mb-12">
-            <h1 class="text-6xl md:text-8xl lg:text-9xl font-extralight uppercase tracking-widest text-teal-300">
-                KINETIC
-            </h1>
-            <h2 class="text-6xl md:text-8xl lg:text-9xl font-extralight uppercase tracking-widest text-orange-400">
-                BLUME
-            </h2>
+    <div id="content" class="relative z-10 w-full max-w-2xl text-center flex flex-col items-center opacity-0 transition-opacity duration-700 ease-out translate-y-5">
+        <!-- Branding element -->
+        <div class="flex items-center space-x-2 mb-4">
+            <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span class="text-xl font-medium text-gray-400">Kinetic Blume</span>
         </div>
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
+            Cultivating the Next Generation of AI-Native Companies.
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-prose">
+            Our first bold bet is **Project Keystone**, building the trust rails for India's $400B+ real estate market.
+            Join our network to collaborate on future ventures.
+        </p>
 
-        <!-- Hero text -->
-        <div class="max-w-4xl space-y-8">
-            <h3 class="text-2xl md:text-4xl font-light text-white">
-                <span class="block">New ventures are <span class="gradient-text">blooming.</span></span>
-            </h3>
-            <p class="text-lg md:text-xl text-gray-400 font-extralight max-w-2xl mx-auto">
-                A venture lab cultivating the next generation of AI-native companies.
-            </p>
+        <!-- Form and Message -->
+        <div id="form-container" class="w-full max-w-sm">
+            <!-- Netlify Form -->
+            <form id="waitlist-form" name="waitlist" method="POST" data-netlify="true" class="w-full flex flex-col items-center space-y-4">
+                <input type="hidden" name="form-name" value="waitlist" />
+                <input
+                    type="email"
+                    name="email"
+                    id="email-input"
+                    class="w-full px-4 py-3 rounded-xl bg-gray-800 text-gray-200 placeholder-gray-500 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                    placeholder="Enter your email address"
+                    aria-label="Email address"
+                    required
+                />
+                <button
+                    type="submit"
+                    id="submit-button"
+                    class="w-full px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold shadow-lg hover:from-teal-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2"
+                >
+                    <span>Join our Network</span>
+                </button>
+            </form>
+            <div id="message-box" class="hidden mt-4 p-4 rounded-xl bg-gray-800 text-white border border-gray-700 text-center transition-opacity duration-500 opacity-0"></div>
         </div>
-
-        <!-- Typewriter section -->
-        <div class="mt-16 max-w-lg mx-auto">
-            <div class="h-8 md:h-12 flex justify-center items-center">
-                <p class="text-md md:text-lg font-mono text-teal-300">
-                    <span id="typewriterText"></span><span class="animate-pulse">_</span>
-                </p>
-            </div>
-            <div class="mt-4 text-center text-gray-500 text-xs uppercase tracking-wider">
-                Pioneering a new approach in Indian real estate.
-            </div>
-        </div>
-
-        <!-- Call to Action -->
-        <a href="mailto:info@kineticblume.com" class="mt-16 block">
-            <div class="cta-button bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-full px-8 py-4 transition-all duration-300 hover:border-orange-500/50">
-                <p class="text-white text-sm md:text-base font-light tracking-wide">
-                    <span class="text-teal-400">↳</span> Initiate Contact Protocol <span class="font-mono text-orange-400 ml-2">info@kineticblume.com</span>
-                </p>
-            </div>
-        </a>
     </div>
-    
+
     <script>
-        // --- Three.js Dynamic Background ---
-        let scene, camera, renderer, geometry, material, mesh;
-        let mouseX = 0, mouseY = 0;
-        const windowHalfX = window.innerWidth / 2;
-        const windowHalfY = window.innerHeight / 2;
-        
-        function initThreeJS() {
-            // Setup scene, camera, renderer
-            scene = new THREE.Scene();
-            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            renderer = new THREE.WebGLRenderer({
-                canvas: document.getElementById('threejs-canvas'),
-                antialias: true,
-                alpha: true
-            });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setClearColor(0x000000, 0);
-
-            // Create a dynamic, geometric shape
-            const numPoints = 200;
-            const radius = 25;
-            geometry = new THREE.BufferGeometry();
-            const positions = [];
-            const colors = [];
-            const color1 = new THREE.Color(0x008080); // Teal
-            const color2 = new THREE.Color(0xff8000); // Orange
+        document.addEventListener('DOMContentLoaded', () => {
+            const content = document.getElementById('content');
+            const form = document.getElementById('waitlist-form');
+            const submitButton = document.getElementById('submit-button');
+            const messageBox = document.getElementById('message-box');
             
-            for (let i = 0; i < numPoints; i++) {
-                const phi = Math.acos(1 - 2 * Math.random());
-                const theta = Math.random() * Math.PI * 2;
-                const x = radius * Math.sin(phi) * Math.cos(theta);
-                const y = radius * Math.sin(phi) * Math.sin(theta);
-                const z = radius * Math.cos(phi);
-                positions.push(x, y, z);
+            // Fade in the main content
+            setTimeout(() => {
+                content.style.opacity = '1';
+                content.style.transform = 'translateY(0)';
+            }, 100);
+
+            // Function to show a message
+            const showMessage = (text, isError = false) => {
+                messageBox.innerText = text;
+                messageBox.classList.remove('hidden');
+                messageBox.classList.remove('bg-gray-800');
+                messageBox.classList.remove('border-gray-700');
+                if (isError) {
+                    messageBox.classList.add('bg-red-800', 'border-red-700');
+                } else {
+                    messageBox.classList.add('bg-green-800', 'border-green-700');
+                }
+                setTimeout(() => {
+                    messageBox.classList.add('opacity-100');
+                }, 10);
+            };
+
+            // Handle form submission
+            form.addEventListener('submit', async (e) => {
+                // Prevent the default form submission to handle it manually
+                e.preventDefault();
                 
-                // Assign a color based on distance from center
-                const color = color1.clone().lerp(color2, Math.random());
-                colors.push(color.r, color.g, color.b);
-            }
-            
-            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-            
-            // Material for the points
-            material = new THREE.PointsMaterial({
-                size: 0.5,
-                vertexColors: true,
-                transparent: true,
-                opacity: 0.7
+                // Get the form data
+                const formData = new FormData(form);
+                const email = formData.get('email');
+                
+                // Simple client-side validation
+                if (!email || !email.includes('@')) {
+                    showMessage('Please enter a valid email address.', true);
+                    return;
+                }
+
+                // Show loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg><span> Submitting...</span>`;
+                
+                try {
+                    // Submit the form data to Netlify's Forms endpoint
+                    const response = await fetch(form.action, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams(formData).toString(),
+                    });
+
+                    if (response.ok) {
+                        showMessage('Thank you! We will be in touch with an invitation to our network.');
+                        form.classList.add('hidden');
+                    } else {
+                        throw new Error('Form submission failed.');
+                    }
+                } catch (error) {
+                    showMessage('An error occurred. Please try again later.', true);
+                    console.error('Error submitting form:', error);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = `<span>Join our Network</span>`;
+                }
             });
-            
-            mesh = new THREE.Points(geometry, material);
-            scene.add(mesh);
-            
-            camera.position.z = 50;
-
-            document.addEventListener('mousemove', onMouseMove, false);
-            window.addEventListener('resize', onWindowResize, false);
-        }
-
-        function onMouseMove(event) {
-            mouseX = (event.clientX - windowHalfX);
-            mouseY = (event.clientY - windowHalfY);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        function animateThreeJS() {
-            requestAnimationFrame(animateThreeJS);
-
-            // Animate object rotation
-            mesh.rotation.x += 0.0005;
-            mesh.rotation.y += 0.001;
-            
-            // Subtle parallax effect with mouse
-            camera.position.x += (mouseX * 0.001 - camera.position.x) * 0.05;
-            camera.position.y += (-mouseY * 0.001 - camera.position.y) * 0.05;
-            camera.lookAt(scene.position);
-
-            renderer.render(scene, camera);
-        }
-
-        // --- Typewriter Effect ---
-        const texts = [
-            'Developing the future...',
-            'Innovating at the intersection of AI and commerce...',
-            'Unlocking new possibilities...'
-        ];
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        
-        function type() {
-            const currentText = texts[textIndex];
-            const typewriterElement = document.getElementById('typewriterText');
-            let typingSpeed = 100;
-            
-            if (isDeleting) {
-                typingSpeed = 50;
-                typewriterElement.textContent = currentText.substring(0, charIndex - 1);
-                charIndex--;
-            } else {
-                typewriterElement.textContent = currentText.substring(0, charIndex + 1);
-                charIndex++;
-            }
-            
-            if (!isDeleting && charIndex === currentText.length) {
-                setTimeout(() => isDeleting = true, 2000);
-            } else if (isDeleting && charIndex === 0) {
-                isDeleting = false;
-                textIndex = (textIndex + 1) % texts.length;
-                setTimeout(type, 500);
-                return;
-            }
-            
-            setTimeout(type, typingSpeed);
-        }
-        
-        // --- Initialization ---
-        window.onload = function() {
-            initThreeJS();
-            animateThreeJS();
-            type();
-        };
+        });
     </script>
 </body>
 </html>
