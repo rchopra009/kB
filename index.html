@@ -7,115 +7,109 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Epilogue:wght@300;400;700;900&display=swap" rel="stylesheet" />
     <style>
         :root {
-            --bg: #f0f0f0;
+            --bg: #f8f8f8;
             --surface: #ffffff;
             --text: #000000;
             --accent: #0033ff; /* High-Voltage Blue */
             --border: #000000;
-            --muted: #666666;
-            --transition-snap: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            --muted: #888888;
+            --transition-snap: 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            --cursor-size: 20px;
         }
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        *, *::before, *::after { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            cursor: none !important; /* Hide default cursor for custom crosshair */
+        }
         
         body {
             background: var(--bg);
             color: var(--text);
             font-family: 'Epilogue', sans-serif;
             font-weight: 400;
-            line-height: 1.2;
+            line-height: 1.1;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ── GRID SYSTEM BACKGROUND ── */
+        /* ── CUSTOM CROSSHAIR ── */
+        #cursor {
+            position: fixed;
+            width: var(--cursor-size);
+            height: var(--cursor-size);
+            border: 1px solid var(--accent);
+            pointer-events: none;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            mix-blend-mode: difference;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s;
+        }
+        #cursor::before, #cursor::after {
+            content: '';
+            position: absolute;
+            background: var(--accent);
+        }
+        #cursor::before { width: 100%; height: 1px; }
+        #cursor::after { height: 100%; width: 1px; }
+
+        /* ── GRID SYSTEM ── */
         .blueprint-bg {
             position: fixed;
             inset: 0;
             z-index: -1;
             background-image: 
-                linear-gradient(var(--accent) 1px, transparent 1px),
-                linear-gradient(90deg, var(--accent) 1px, transparent 1px);
-            background-size: 50px 50px;
-            opacity: 0.03;
+                linear-gradient(rgba(0, 51, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 51, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
             pointer-events: none;
-        }
-
-        /* ── SCANNER LINE ── */
-        .scanner-line {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: var(--accent);
-            z-index: 1000;
-            opacity: 0.3;
-            animation: scan 8s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan {
-            0% { transform: translateY(-100vh); }
-            100% { transform: translateY(100vh); }
         }
 
         /* ── NAV ── */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
             display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 40px;
+            padding: 24px 40px;
             background: var(--surface);
             border-bottom: 2px solid var(--border);
         }
 
         .nav-logo {
             font-family: 'DM Mono', monospace;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 700;
             letter-spacing: -0.05em;
-            text-transform: uppercase;
         }
 
-        .nav-links { display: flex; gap: 30px; list-style: none; }
-        .nav-links a {
+        .nav-status {
             font-family: 'DM Mono', monospace;
-            font-size: 12px;
-            color: var(--text);
-            text-decoration: none;
+            font-size: 10px;
+            display: flex; gap: 20px;
             text-transform: uppercase;
-            font-weight: 500;
-            padding: 5px 10px;
         }
-        .nav-links a:hover { background: var(--border); color: var(--surface); }
+        .status-dot { width: 6px; height: 6px; background: #00ff00; border-radius: 50%; display: inline-block; margin-right: 5px; }
 
         /* ── HERO ── */
         #hero {
             min-height: 100vh;
-            padding: 140px 40px 80px;
+            padding: 160px 40px 80px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 80px;
             border-bottom: 2px solid var(--border);
         }
 
-        .hero-content { display: flex; flex-direction: column; justify-content: space-between; }
-
-        .hero-eyebrow {
-            font-family: 'DM Mono', monospace;
-            font-size: 14px;
-            background: var(--accent);
-            color: white;
-            padding: 4px 12px;
-            display: inline-block;
-            margin-bottom: 40px;
-            width: fit-content;
-        }
-
         .hero-headline {
-            font-size: clamp(60px, 8vw, 120px);
+            font-size: clamp(60px, 9vw, 160px);
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: -0.05em;
-            line-height: 0.85;
-            margin-bottom: 60px;
+            letter-spacing: -0.06em;
+            line-height: 0.8;
+            margin-bottom: 40px;
         }
 
         .hero-headline span {
@@ -124,28 +118,25 @@
         }
 
         .hero-sub {
-            font-size: 24px;
-            max-width: 500px;
+            font-size: 20px;
+            max-width: 520px;
             font-weight: 400;
-            margin-bottom: 40px;
+            line-height: 1.4;
+            margin-bottom: 60px;
+            color: var(--muted);
         }
 
         .hero-visual {
             border: 2px solid var(--border);
-            background: var(--surface);
+            background: #000;
             position: relative;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-
-        #bg-canvas { width: 100%; height: 100%; }
 
         /* ── BUTTONS ── */
         .btn {
             display: inline-block;
-            padding: 24px 48px;
+            padding: 24px 40px;
             font-family: 'DM Mono', monospace;
             font-size: 14px;
             font-weight: 700;
@@ -153,217 +144,248 @@
             text-decoration: none;
             border: 2px solid var(--border);
             transition: var(--transition-snap);
-            position: relative;
-            box-shadow: 6px 6px 0px var(--border);
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 4px 4px 0px var(--border);
         }
 
-        .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
-        .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 10px 10px 0px var(--border); }
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px var(--accent);
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
 
-        .btn-ghost { background: var(--surface); color: var(--text); }
-        .btn-ghost:hover { background: var(--text); color: var(--surface); }
-
-        /* ── SECTION SHARED ── */
+        /* ── SECTIONS ── */
         section {
-            padding: 100px 40px;
+            padding: 120px 40px;
             border-bottom: 2px solid var(--border);
         }
 
         .section-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 80px;
-        }
-
-        .section-num {
-            font-family: 'DM Mono', monospace;
-            font-size: 120px;
-            font-weight: 700;
-            line-height: 0.7;
-            opacity: 0.1;
+            align-items: flex-start;
+            margin-bottom: 100px;
         }
 
         .section-title {
-            font-size: 60px;
+            font-size: clamp(40px, 5vw, 80px);
             text-transform: uppercase;
             font-weight: 900;
-            letter-spacing: -0.04em;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
         }
 
-        /* ── THESIS GRID ── */
+        .section-title em { font-style: normal; color: var(--accent); }
+
+        /* ── THESIS PILLARS ── */
         .thesis-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            background: var(--border);
-            border: 2px solid var(--border);
+            border: 1px solid var(--border);
         }
 
         .pillar {
             background: var(--surface);
-            padding: 40px;
+            padding: 60px 40px;
+            border: 1px solid var(--border);
             transition: var(--transition-snap);
         }
 
-        .pillar:hover { background: var(--accent); color: white; }
+        .pillar:hover {
+            background: var(--text);
+            color: var(--surface);
+            transform: scale(1.02);
+            z-index: 10;
+        }
 
         .pillar-tag {
             font-family: 'DM Mono', monospace;
-            font-size: 10px;
-            border: 1px solid currentColor;
+            font-size: 9px;
+            background: rgba(0, 51, 255, 0.1);
+            color: var(--accent);
             padding: 4px 8px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             display: inline-block;
         }
 
-        .pillar h4 { font-size: 24px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; }
-        .pillar p { font-size: 14px; line-height: 1.5; opacity: 0.8; }
+        .pillar h4 { font-size: 22px; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; }
+        .pillar p { font-size: 14px; line-height: 1.4; opacity: 0.7; }
 
         /* ── VENTURES ── */
-        .venture-row {
-            display: grid;
-            grid-template-columns: 1fr 2fr 1fr;
-            padding: 40px 0;
-            border-bottom: 1px solid #ddd;
-            align-items: center;
-            transition: var(--transition-snap);
+        .venture-table {
+            border-top: 2px solid var(--border);
         }
 
-        .venture-row:hover { padding-left: 20px; background: #fafafa; }
+        .venture-row {
+            display: grid;
+            grid-template-columns: 0.5fr 2fr 1fr 1fr;
+            padding: 40px;
+            border-bottom: 2px solid var(--border);
+            align-items: center;
+            transition: var(--transition-snap);
+            background: var(--surface);
+        }
 
-        .v-id { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 700; }
-        .v-name { font-size: 32px; font-weight: 800; text-transform: uppercase; }
-        .v-status { font-family: 'DM Mono', monospace; font-size: 12px; text-align: right; }
+        .venture-row:hover {
+            background: var(--accent);
+            color: white;
+            padding-left: 60px;
+        }
+
+        .v-id { font-family: 'DM Mono', monospace; font-size: 12px; opacity: 0.5; }
+        .v-name { font-size: 40px; font-weight: 900; text-transform: uppercase; letter-spacing: -0.04em; }
+        .v-tech { font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; }
+        .v-status { font-family: 'DM Mono', monospace; font-size: 11px; text-align: right; }
 
         /* ── FOOTER ── */
         footer {
-            padding: 80px 40px;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
+            padding: 120px 40px;
             background: var(--border);
             color: var(--surface);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
         }
 
-        .footer-cta { font-size: 80px; font-weight: 900; line-height: 0.9; text-transform: uppercase; }
+        .footer-cta { font-size: clamp(60px, 10vw, 140px); font-weight: 900; line-height: 0.8; text-transform: uppercase; letter-spacing: -0.06em; }
 
         /* ── RESPONSIVE ── */
-        @media (max-width: 1024px) {
+        @media (max-width: 1100px) {
             #hero { grid-template-columns: 1fr; }
-            .hero-headline { font-size: 70px; }
             .thesis-grid { grid-template-columns: 1fr 1fr; }
-            .venture-row { grid-template-columns: 1fr; gap: 10px; }
+            .venture-row { grid-template-columns: 1fr; gap: 20px; }
             .v-status { text-align: left; }
-            footer { grid-template-columns: 1fr; gap: 40px; }
+            footer { flex-direction: column; align-items: flex-start; gap: 60px; }
         }
     </style>
 </head>
 <body>
 
+<div id="cursor"></div>
 <div class="blueprint-bg"></div>
-<div class="scanner-line"></div>
 
 <nav>
-    <div class="nav-logo">KB // STUDIO</div>
-    <ul class="nav-links">
-        <li><a href="#thesis">Thesis</a></li>
-        <li><a href="#ventures">Portfolio</a></li>
-        <li><a href="mailto:rohit@kineticblume.com">Access</a></li>
-    </ul>
+    <div class="nav-logo">KB_STUDIO.SYS</div>
+    <div class="nav-status">
+        <span><span class="status-dot"></span>SYSTEM_ACTIVE</span>
+        <span>LATENCY_04ms</span>
+        <span>AUTH_V2.9</span>
+    </div>
 </nav>
 
 <section id="hero">
     <div class="hero-content">
         <div>
-            <div class="hero-eyebrow">KINETIC BLUME // SYSTEM_INIT</div>
+            <div class="pillar-tag" style="margin-bottom: 20px;">VERSION_CONTROL // 2026.INIT</div>
             <h1 class="hero-headline">
                 WE <span>DO NOT</span><br>INVEST.<br>WE REPLACE.
             </h1>
             <p class="hero-sub">
-                The industry operating systems of tomorrow are being architected today. We rewrite trillion-dollar sectors from byte one.
+                Kinetic Blume is an AI-sovereign venture studio. We don't build features. We architect the replacement protocols for legacy industries.
             </p>
-        </div>
-        <div style="display: flex; gap: 20px;">
-            <a href="#ventures" class="btn btn-primary">View Output</a>
-            <a href="mailto:rohit@kineticblume.com" class="btn btn-ghost">Contact</a>
+            <div style="display: flex; gap: 20px;">
+                <a href="#ventures" class="btn">EXEC_PROTOCOL</a>
+                <a href="mailto:rohit@kineticblume.com" class="btn" style="box-shadow: 4px 4px 0px var(--accent);">AUDIT_REQUEST</a>
+            </div>
         </div>
     </div>
     <div class="hero-visual">
         <canvas id="bg-canvas"></canvas>
-        <div style="position: absolute; bottom: 20px; right: 20px; font-family: 'DM Mono', monospace; font-size: 10px; background: white; border: 1px solid black; padding: 10px;">
-            LATENCY: 14MS<br>STATUS: ACTIVE<br>VERSION: 2.0.BRUTAL
+        <div style="position: absolute; top: 20px; left: 20px; font-family: 'DM Mono', monospace; font-size: 9px; color: #00ff00;">
+            >> INJECTING_THE_FUTURE...<br>
+            >> ANALYZING_FRACTURES...<br>
+            >> OPTIMIZING_REPLACEMENT...
         </div>
     </div>
 </section>
 
 <section id="thesis">
     <div class="section-header">
-        <h2 class="section-title">The<br>Architectural<br>Thesis</h2>
-        <span class="section-num">01</span>
+        <h2 class="section-title">Structural<br><em>Audit</em> & Synthesis</h2>
+        <div style="font-family: 'DM Mono', monospace; font-size: 11px; text-align: right; opacity: 0.5;">[ PHASE_01_THEORY ]</div>
     </div>
     <div class="thesis-grid">
         <div class="pillar">
-            <span class="pillar-tag">FRACTURE_ANALYSIS</span>
-            <h4>Identify</h4>
-            <p>We find industries where the friction is profitable for incumbents. That tension is our entry point.</p>
+            <span class="pillar-tag">RECON_01</span>
+            <h4>Audit</h4>
+            <p>Identify industries where legacy friction is profitable for incumbents. Extract and isolate the fracture.</p>
         </div>
         <div class="pillar">
-            <span class="pillar-tag">SYSTEM_REBUILD</span>
-            <h4>Architect</h4>
-            <p>No retrofitting. We design the operating model as if AI were the foundation, not an addition.</p>
+            <span class="pillar-tag">ARCH_02</span>
+            <h4>Code</h4>
+            <p>Rearchitect the industry as if intelligence were the primary substrate, not a layer of augmentation.</p>
         </div>
         <div class="pillar">
-            <span class="pillar-tag">TALENT_SYNTHESIS</span>
-            <h4>Assemble</h4>
-            <p>We pair AI engineers with domain insurgents who want to burn down the old models.</p>
+            <span class="pillar-tag">SYNTH_03</span>
+            <h4>Fuse</h4>
+            <p>Pair deep AI engineers with industry insurgents. Create a cultural combustion of knowledge and code.</p>
         </div>
         <div class="pillar">
-            <span class="pillar-tag">DEPLOY_SCALE</span>
-            <h4>Execute</h4>
-            <p>Each venture launches as an independent sovereign entity, supported by Blume's shared intelligence layer.</p>
+            <span class="pillar-tag">DEPLOY_04</span>
+            <h4>Instantiate</h4>
+            <p>Launch each venture as a sovereign system. Infinite scale via Blume's centralized compute and strategy layer.</p>
         </div>
     </div>
 </section>
 
 <section id="ventures">
     <div class="section-header">
-        <h2 class="section-title">Current<br>Deployments</h2>
-        <span class="section-num">02</span>
+        <h2 class="section-title">Active<br>Instances</h2>
+        <div style="font-family: 'DM Mono', monospace; font-size: 11px; text-align: right; opacity: 0.5;">[ REGISTRY_v2.0 ]</div>
     </div>
     
-    <div class="venture-row">
-        <span class="v-id">PROJECT_01</span>
-        <span class="v-name">Blume Real Estate</span>
-        <span class="v-status">ALPHA_DEPLOY // Q1 2026</span>
-    </div>
-    <div class="venture-row">
-        <span class="v-id">PROJECT_02</span>
-        <span class="v-name">Blume Pharma</span>
-        <span class="v-status">SYSTEM_BUILD // IN_STEALTH</span>
-    </div>
-    <div class="venture-row">
-        <span class="v-id">PROJECT_03</span>
-        <span class="v-name">Blume FinTech</span>
-        <span class="v-status">SYSTEM_BUILD // IN_STEALTH</span>
-    </div>
-    <div class="venture-row">
-        <span class="v-id">PROJECT_04</span>
-        <span class="v-name">Blume AI Infra</span>
-        <span class="v-status">CORE_LAYER // ACTIVE</span>
+    <div class="venture-table">
+        <div class="venture-row">
+            <span class="v-id">0x01</span>
+            <span class="v-name">Real Estate</span>
+            <span class="v-tech">PROP_SOVEREIGN_AI</span>
+            <span class="v-status">ALPHA_DEPLOY // Q1'26</span>
+        </div>
+        <div class="venture-row">
+            <span class="v-id">0x02</span>
+            <span class="v-name">Pharma</span>
+            <span class="v-tech">DRUG_SYNTH_ENGINE</span>
+            <span class="v-status">SYSTEM_BUILD // STEALTH</span>
+        </div>
+        <div class="venture-row">
+            <span class="v-id">0x03</span>
+            <span class="v-name">FinTech</span>
+            <span class="v-tech">LEDGER_AUTO_INTEL</span>
+            <span class="v-status">SYSTEM_BUILD // STEALTH</span>
+        </div>
+        <div class="venture-row">
+            <span class="v-id">0x04</span>
+            <span class="v-name">AI Infra</span>
+            <span class="v-tech">CORE_INTELLIGENCE</span>
+            <span class="v-status">ACTIVE_STATE</span>
+        </div>
     </div>
 </section>
 
 <footer>
     <div class="footer-cta">
-        INITIATE<br>THE<br>COLLISION.
+        INITIATE<br>COLLISION_
     </div>
-    <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;">
-        <p style="font-family: 'DM Mono', monospace; font-size: 14px; margin-bottom: 20px;">ROHIT@KINETICBLUME.COM</p>
-        <div style="font-family: 'DM Mono', monospace; font-size: 10px; opacity: 0.5;">© 2026 KINETIC BLUME STUDIO. BUILT IN BNG/SEA.</div>
+    <div style="text-align: right;">
+        <p style="font-family: 'DM Mono', monospace; font-size: 18px; margin-bottom: 20px;">ROHIT@KINETICBLUME.COM</p>
+        <div style="font-family: 'DM Mono', monospace; font-size: 10px; opacity: 0.4;">
+            KINETIC_BLUME // VENTURE_LABS<br>
+            INDIA // SEATTLE // 47.6062° N, 122.3321° W
+        </div>
     </div>
 </footer>
 
 <script>
+    // ── CUSTOM CURSOR ──
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', (e) => {
+        cursor.style.left = e.clientX + 'px';
+        cursor.style.top = e.clientY + 'px';
+    });
+
     // ── DATA STREAM VISUAL ──
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
@@ -376,37 +398,44 @@
     window.onresize = resize;
     resize();
 
-    const columns = Math.floor(canvas.width / 20);
-    const drops = new Array(columns).fill(1);
+    const charList = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>[]{}/?+*&^%$#@!".split("");
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = [];
+    for(let x = 0; x < columns; x++) drops[x] = 1;
 
     function draw() {
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = '#0033ff';
-        ctx.font = '10px "DM Mono"';
+        ctx.fillStyle = '#0033ff'; // High-Voltage Blue
+        ctx.font = fontSize + 'px "DM Mono"';
         
-        for (let i = 0; i < drops.length; i++) {
-            const text = Math.random() > 0.5 ? '1' : '0';
-            ctx.fillText(text, i * 20, drops[i] * 20);
+        for(let i = 0; i < drops.length; i++) {
+            const text = charList[Math.floor(Math.random() * charList.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
             
-            if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+            if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
                 drops[i] = 0;
             }
             drops[i]++;
         }
     }
 
-    setInterval(draw, 50);
+    setInterval(draw, 33);
 
-    // Simple smooth scroll
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
+    // Interaction feedback
+    document.querySelectorAll('.btn, .venture-row, .pillar').forEach(el => {
+        el.onmouseenter = () => {
+            cursor.style.width = '40px';
+            cursor.style.height = '40px';
+            cursor.style.borderColor = 'white';
+        };
+        el.onmouseleave = () => {
+            cursor.style.width = '20px';
+            cursor.style.height = '20px';
+            cursor.style.borderColor = '#0033ff';
+        };
     });
 </script>
 
