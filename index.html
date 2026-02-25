@@ -1,89 +1,414 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kinetic Blume: The Venture Lab for AI-Native Companies</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Kinetic Blume is a venture lab cultivating the next generation of AI-native companies. We build from first principles, reimagining industries in India and beyond.">
-    <meta name="keywords" content="venture lab, AI startups, AI-native companies, India, startups, venture capital, technology, innovation, Project Keystone">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph / Social Media Tags -->
-    <meta property="og:title" content="Kinetic Blume: The Venture Lab for AI-Native Companies">
-    <meta property="og:description" content="A venture lab building next-generation, AI-native companies from scratch, focused on reimagining industries in India's fastest-growing market.">
-    <meta property="og:url" content="https://kineticblume.com">
-    <meta property="og:type" content="website">
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- For a custom font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kinetic Blume — AI Venture Studio</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Epilogue:wght@300;400;700;900&display=swap" rel="stylesheet" />
     <style>
+        :root {
+            --bg: #f0f0f0;
+            --surface: #ffffff;
+            --text: #000000;
+            --accent: #0033ff; /* High-Voltage Blue */
+            --border: #000000;
+            --muted: #666666;
+            --transition-snap: 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0c0a09; /* Matches bg-gray-950 */
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Epilogue', sans-serif;
+            font-weight: 400;
+            line-height: 1.2;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
-        .kinetic-bg {
-            animation: pulse-slow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+
+        /* ── GRID SYSTEM BACKGROUND ── */
+        .blueprint-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background-image: 
+                linear-gradient(var(--accent) 1px, transparent 1px),
+                linear-gradient(90deg, var(--accent) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.03;
+            pointer-events: none;
         }
-        @keyframes pulse-slow {
-            0%, 100% { transform: scale(1) translate(-50%, -50%); opacity: 0.1; }
-            50% { transform: scale(1.2) translate(-50%, -50%); opacity: 0.05; }
+
+        /* ── SCANNER LINE ── */
+        .scanner-line {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--accent);
+            z-index: 1000;
+            opacity: 0.3;
+            animation: scan 8s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100vh); }
+            100% { transform: translateY(100vh); }
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 20px 40px;
+            background: var(--surface);
+            border-bottom: 2px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'DM Mono', monospace;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            text-transform: uppercase;
+        }
+
+        .nav-links { display: flex; gap: 30px; list-style: none; }
+        .nav-links a {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--text);
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 500;
+            padding: 5px 10px;
+        }
+        .nav-links a:hover { background: var(--border); color: var(--surface); }
+
+        /* ── HERO ── */
+        #hero {
+            min-height: 100vh;
+            padding: 140px 40px 80px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .hero-content { display: flex; flex-direction: column; justify-content: space-between; }
+
+        .hero-eyebrow {
+            font-family: 'DM Mono', monospace;
+            font-size: 14px;
+            background: var(--accent);
+            color: white;
+            padding: 4px 12px;
+            display: inline-block;
+            margin-bottom: 40px;
+            width: fit-content;
+        }
+
+        .hero-headline {
+            font-size: clamp(60px, 8vw, 120px);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.85;
+            margin-bottom: 60px;
+        }
+
+        .hero-headline span {
+            -webkit-text-stroke: 2px var(--border);
+            color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 24px;
+            max-width: 500px;
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+
+        .hero-visual {
+            border: 2px solid var(--border);
+            background: var(--surface);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #bg-canvas { width: 100%; height: 100%; }
+
+        /* ── BUTTONS ── */
+        .btn {
+            display: inline-block;
+            padding: 24px 48px;
+            font-family: 'DM Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 2px solid var(--border);
+            transition: var(--transition-snap);
+            position: relative;
+            box-shadow: 6px 6px 0px var(--border);
+        }
+
+        .btn-primary { background: var(--accent); color: white; border-color: var(--accent); }
+        .btn-primary:hover { transform: translate(-2px, -2px); box-shadow: 10px 10px 0px var(--border); }
+
+        .btn-ghost { background: var(--surface); color: var(--text); }
+        .btn-ghost:hover { background: var(--text); color: var(--surface); }
+
+        /* ── SECTION SHARED ── */
+        section {
+            padding: 100px 40px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 80px;
+        }
+
+        .section-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 120px;
+            font-weight: 700;
+            line-height: 0.7;
+            opacity: 0.1;
+        }
+
+        .section-title {
+            font-size: 60px;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        /* ── THESIS GRID ── */
+        .thesis-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2px;
+            background: var(--border);
+            border: 2px solid var(--border);
+        }
+
+        .pillar {
+            background: var(--surface);
+            padding: 40px;
+            transition: var(--transition-snap);
+        }
+
+        .pillar:hover { background: var(--accent); color: white; }
+
+        .pillar-tag {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            border: 1px solid currentColor;
+            padding: 4px 8px;
+            margin-bottom: 40px;
+            display: inline-block;
+        }
+
+        .pillar h4 { font-size: 24px; font-weight: 700; margin-bottom: 20px; text-transform: uppercase; }
+        .pillar p { font-size: 14px; line-height: 1.5; opacity: 0.8; }
+
+        /* ── VENTURES ── */
+        .venture-row {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+            align-items: center;
+            transition: var(--transition-snap);
+        }
+
+        .venture-row:hover { padding-left: 20px; background: #fafafa; }
+
+        .v-id { font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 700; }
+        .v-name { font-size: 32px; font-weight: 800; text-transform: uppercase; }
+        .v-status { font-family: 'DM Mono', monospace; font-size: 12px; text-align: right; }
+
+        /* ── FOOTER ── */
+        footer {
+            padding: 80px 40px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            background: var(--border);
+            color: var(--surface);
+        }
+
+        .footer-cta { font-size: 80px; font-weight: 900; line-height: 0.9; text-transform: uppercase; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            #hero { grid-template-columns: 1fr; }
+            .hero-headline { font-size: 70px; }
+            .thesis-grid { grid-template-columns: 1fr 1fr; }
+            .venture-row { grid-template-columns: 1fr; gap: 10px; }
+            .v-status { text-align: left; }
+            footer { grid-template-columns: 1fr; gap: 40px; }
         }
     </style>
 </head>
-<body class="min-h-screen text-white flex items-center justify-center p-4 overflow-hidden">
-    <!-- Background kinetic particles -->
-    <div class="absolute top-1/2 left-1/2 w-96 h-96 -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500 kinetic-bg"></div>
-    <div class="absolute top-1/4 left-1/4 w-64 h-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-fuchsia-500 kinetic-bg" style="animation-delay: 1.5s;"></div>
+<body>
 
-    <div id="content" class="relative z-10 w-full max-w-2xl text-center flex flex-col items-center opacity-0 transition-opacity duration-700 ease-out translate-y-5">
-        <!-- Branding and Hero Section -->
-        <div class="flex items-center space-x-2 mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-            <span class="text-xl font-medium text-gray-400">Kinetic Blume</span>
-        </div>
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight mb-4 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500">
-            The Venture Lab for the Next Generation of AI-Native Companies.
-        </h1>
-        <p class="text-lg sm:text-xl text-gray-400 mb-8 max-w-prose">
-            We build from first principles — creating ventures from scratch that reimagine how industries operate in India, one of the world’s fastest-growing markets. Our first venture is already underway — building from India and Seattle.
-        </p>
+<div class="blueprint-bg"></div>
+<div class="scanner-line"></div>
 
-        <!-- CTA Section -->
-        <div class="mt-8 flex flex-col items-center space-y-4">
-            <h2 class="text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-400">
-                Collaboration at the Edge.
-            </h2>
-            <p class="text-base sm:text-lg text-gray-500 max-w-prose">
-                We invite exceptional partners — operators, builders, and investors — to join us in reimagining industries.
+<nav>
+    <div class="nav-logo">KB // STUDIO</div>
+    <ul class="nav-links">
+        <li><a href="#thesis">Thesis</a></li>
+        <li><a href="#ventures">Portfolio</a></li>
+        <li><a href="mailto:rohit@kineticblume.com">Access</a></li>
+    </ul>
+</nav>
+
+<section id="hero">
+    <div class="hero-content">
+        <div>
+            <div class="hero-eyebrow">KINETIC BLUME // SYSTEM_INIT</div>
+            <h1 class="hero-headline">
+                WE <span>DO NOT</span><br>INVEST.<br>WE REPLACE.
+            </h1>
+            <p class="hero-sub">
+                The industry operating systems of tomorrow are being architected today. We rewrite trillion-dollar sectors from byte one.
             </p>
-            
-            <a href="mailto:rohit@kineticblume.com"
-                class="w-full max-w-sm px-6 py-3 rounded-xl bg-gradient-to-r from-teal-500 to-blue-600 text-white font-semibold shadow-lg hover:from-teal-600 hover:to-blue-700 transition-all duration-300 flex items-center justify-center space-x-2 mt-4"
-            >
-                <svg class="w-5 h-5 -rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-                <span>Initiate Contact Protocol</span>
-            </a>
+        </div>
+        <div style="display: flex; gap: 20px;">
+            <a href="#ventures" class="btn btn-primary">View Output</a>
+            <a href="mailto:rohit@kineticblume.com" class="btn btn-ghost">Contact</a>
         </div>
     </div>
+    <div class="hero-visual">
+        <canvas id="bg-canvas"></canvas>
+        <div style="position: absolute; bottom: 20px; right: 20px; font-family: 'DM Mono', monospace; font-size: 10px; background: white; border: 1px solid black; padding: 10px;">
+            LATENCY: 14MS<br>STATUS: ACTIVE<br>VERSION: 2.0.BRUTAL
+        </div>
+    </div>
+</section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const content = document.getElementById('content');
+<section id="thesis">
+    <div class="section-header">
+        <h2 class="section-title">The<br>Architectural<br>Thesis</h2>
+        <span class="section-num">01</span>
+    </div>
+    <div class="thesis-grid">
+        <div class="pillar">
+            <span class="pillar-tag">FRACTURE_ANALYSIS</span>
+            <h4>Identify</h4>
+            <p>We find industries where the friction is profitable for incumbents. That tension is our entry point.</p>
+        </div>
+        <div class="pillar">
+            <span class="pillar-tag">SYSTEM_REBUILD</span>
+            <h4>Architect</h4>
+            <p>No retrofitting. We design the operating model as if AI were the foundation, not an addition.</p>
+        </div>
+        <div class="pillar">
+            <span class="pillar-tag">TALENT_SYNTHESIS</span>
+            <h4>Assemble</h4>
+            <p>We pair AI engineers with domain insurgents who want to burn down the old models.</p>
+        </div>
+        <div class="pillar">
+            <span class="pillar-tag">DEPLOY_SCALE</span>
+            <h4>Execute</h4>
+            <p>Each venture launches as an independent sovereign entity, supported by Blume's shared intelligence layer.</p>
+        </div>
+    </div>
+</section>
+
+<section id="ventures">
+    <div class="section-header">
+        <h2 class="section-title">Current<br>Deployments</h2>
+        <span class="section-num">02</span>
+    </div>
+    
+    <div class="venture-row">
+        <span class="v-id">PROJECT_01</span>
+        <span class="v-name">Blume Real Estate</span>
+        <span class="v-status">ALPHA_DEPLOY // Q1 2026</span>
+    </div>
+    <div class="venture-row">
+        <span class="v-id">PROJECT_02</span>
+        <span class="v-name">Blume Pharma</span>
+        <span class="v-status">SYSTEM_BUILD // IN_STEALTH</span>
+    </div>
+    <div class="venture-row">
+        <span class="v-id">PROJECT_03</span>
+        <span class="v-name">Blume FinTech</span>
+        <span class="v-status">SYSTEM_BUILD // IN_STEALTH</span>
+    </div>
+    <div class="venture-row">
+        <span class="v-id">PROJECT_04</span>
+        <span class="v-name">Blume AI Infra</span>
+        <span class="v-status">CORE_LAYER // ACTIVE</span>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-cta">
+        INITIATE<br>THE<br>COLLISION.
+    </div>
+    <div style="display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-end;">
+        <p style="font-family: 'DM Mono', monospace; font-size: 14px; margin-bottom: 20px;">ROHIT@KINETICBLUME.COM</p>
+        <div style="font-family: 'DM Mono', monospace; font-size: 10px; opacity: 0.5;">© 2026 KINETIC BLUME STUDIO. BUILT IN BNG/SEA.</div>
+    </div>
+</footer>
+
+<script>
+    // ── DATA STREAM VISUAL ──
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    function resize() {
+        const parent = canvas.parentElement;
+        canvas.width = parent.clientWidth;
+        canvas.height = parent.clientHeight;
+    }
+    window.onresize = resize;
+    resize();
+
+    const columns = Math.floor(canvas.width / 20);
+    const drops = new Array(columns).fill(1);
+
+    function draw() {
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#0033ff';
+        ctx.font = '10px "DM Mono"';
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = Math.random() > 0.5 ? '1' : '0';
+            ctx.fillText(text, i * 20, drops[i] * 20);
             
-            // Fade in the main content
-            setTimeout(() => {
-                content.style.opacity = '1';
-                content.style.transform = 'translateY(0)';
-            }, 100);
+            if (drops[i] * 20 > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+
+    setInterval(draw, 50);
+
+    // Simple smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
         });
-    </script>
+    });
+</script>
+
 </body>
 </html>
