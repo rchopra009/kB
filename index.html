@@ -52,37 +52,37 @@ nav {
   position:fixed; top:0; left:0; right:0; z-index:500;
   display:flex; align-items:center; justify-content:space-between;
   padding:0 52px;
-  height:72px;
-  transition:background 0.5s, border-color 0.5s;
-  border-bottom: 1px solid transparent;
+  height:80px;
+  background: rgba(6,18,8,0.7);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--bordersub);
+  transition:background 0.5s;
 }
 nav.scrolled {
-  background: rgba(6,18,8,0.94);
-  backdrop-filter: blur(16px);
-  border-bottom-color: var(--bordersub);
+  background: rgba(6,18,8,0.97);
 }
 .nav-logo {
   font-family:'DM Mono',monospace;
-  font-size:13px; letter-spacing:0.18em;
+  font-size:15px; letter-spacing:0.22em;
   color:var(--gold); text-transform:uppercase;
   text-decoration:none; flex-shrink:0;
 }
 .nav-links {
-  display:flex; gap:44px; list-style:none;
+  display:flex; gap:48px; list-style:none;
   position:absolute; left:50%; transform:translateX(-50%);
 }
 .nav-links a {
-  font-family:'DM Mono',monospace; font-size:10px;
-  letter-spacing:0.15em; color:var(--muted);
+  font-family:'DM Mono',monospace; font-size:12px;
+  letter-spacing:0.18em; color:rgba(234,237,232,0.75);
   text-decoration:none; text-transform:uppercase;
   transition:color 0.25s;
 }
 .nav-links a:hover { color:var(--text); }
 .nav-cta {
-  padding:11px 24px;
+  padding:13px 28px;
   background:var(--gold); color:#061208;
-  font-family:'DM Mono',monospace; font-size:10px;
-  font-weight:500; letter-spacing:0.15em; text-transform:uppercase;
+  font-family:'DM Mono',monospace; font-size:11px;
+  font-weight:500; letter-spacing:0.18em; text-transform:uppercase;
   text-decoration:none; transition:background 0.25s, transform 0.25s;
   flex-shrink:0;
 }
@@ -92,9 +92,10 @@ nav.scrolled {
 #hero {
   position:relative; min-height:100vh;
   display:flex; flex-direction:column; justify-content:flex-end;
-  padding:0 52px 96px;
+  padding:80px 52px 96px;
   overflow:hidden;
 }
+.hero-eyebrow { display:none; }
 
 /* forest green radial gradient background */
 .hero-bg {
@@ -286,6 +287,9 @@ h2.sec-head em { font-style:italic; color:var(--gold); }
   display:grid; grid-template-columns:1fr 1.15fr;
   gap:100px; align-items:start;
 }
+.thesis-sticky {
+  position:sticky; top:110px;
+}
 .pillar {
   padding:30px 0; border-bottom:1px solid var(--bordersub);
   display:flex; gap:24px; align-items:flex-start;
@@ -348,6 +352,16 @@ h2.sec-head em { font-style:italic; color:var(--gold); }
 .vc-featured::after {
   content:''; position:absolute; inset:0; pointer-events:none;
   background:radial-gradient(ellipse 55% 70% at 85% 50%, rgba(201,169,110,0.06) 0%, transparent 65%);
+}
+/* last 2 cards span wider to fill the row without a ghost cell */
+.vc-wide {
+  grid-column: span 1;
+}
+/* when there are 5 small cards: row1=3, row2=2 spanning cols */
+.v-grid .vc:nth-child(5) { grid-column: 1 / 2; }
+.v-grid .vc:nth-child(6) { grid-column: 2 / 3; }
+.vc-last-pair {
+  grid-column: span 2 !important;
 }
 .v-status {
   font-family:'DM Mono',monospace; font-size:9px;
@@ -413,6 +427,9 @@ h2.sec-head em { font-style:italic; color:var(--gold); }
 .approach-grid {
   display:grid; grid-template-columns:1fr 1.7fr;
   gap:100px; align-items:start;
+}
+.approach-sticky {
+  position:sticky; top:110px;
 }
 .step {
   display:grid; grid-template-columns:48px 1fr;
@@ -497,14 +514,16 @@ footer {
 /* ─── RESPONSIVE ─────────────────────────────── */
 @media(max-width:980px){
   :root{ --space:56px; --space-lg:96px; }
-  nav { padding:0 24px; }
+  nav { padding:0 24px; height:68px; }
   .nav-links { display:none; }
   #hero,.wrap,.infra-strip,footer { padding-left:24px; padding-right:24px; }
   .hero-headline { font-size:clamp(52px,12vw,90px); }
-  .thesis-grid,.approach-grid,.collab-grid { grid-template-columns:1fr; gap:56px; }
+  .thesis-grid,.approach-grid,.collab-grid { grid-template-columns:1fr; gap:48px; }
+  .thesis-sticky, .approach-sticky { position:static; }
   .v-grid { grid-template-columns:1fr; }
   .vc-featured { grid-column:auto; padding:40px 28px; }
   .vc-featured .v-name { font-size:42px; }
+  .v-grid .vc[style] { grid-column:auto !important; }
   .statusbar { gap:28px; }
   .si { border-right:none; padding-right:0; margin-right:0; }
   .cta-box { padding:40px 28px; position:static; }
@@ -555,7 +574,7 @@ footer {
   </h1>
 
   <p class="hero-sub fu d3">
-    Kinetic Blume is an AI-native venture studio. One root system — six independent companies, each engineered to define a category and render the incumbent model obsolete.
+    Kinetic Blume is an AI-sovereign venture studio. We don't build features. We architect the replacement protocols for legacy industries.
   </p>
 
   <div class="hero-ctas fu d3">
@@ -607,7 +626,7 @@ footer {
   <div class="wrap">
     <div class="thesis-grid">
 
-      <div class="fu">
+      <div class="fu thesis-sticky">
         <div class="sec-label"><span>//</span> Our Thesis</div>
         <h2 class="sec-head">Every great industry is waiting to be <em>rewritten.</em></h2>
         <p class="sec-body">AI is not a feature layer. It is a ground-up rearchitecting of how industries function, compete, and create value. We identify sectors where the operating model is structurally broken — and we rebuild them from the root up.</p>
@@ -741,16 +760,16 @@ footer {
         <div class="v-tag">AI Infrastructure · Agents</div>
       </div>
 
-      <!-- VENTURE V -->
-      <div class="vc">
+      <!-- VENTURE V — spans cols 1-2 -->
+      <div class="vc" style="grid-column:1/3;">
         <div class="v-status sbuild">⬡ Building</div>
         <div class="v-name">Venture V</div>
         <p class="v-desc">One-size-fits-all education in a country of 1.4 billion people with radically different languages and ambitions was always a compromise. We're ending the compromise.</p>
         <div class="v-tag">EdTech · Human Capital</div>
       </div>
 
-      <!-- VENTURE VI -->
-      <div class="vc">
+      <!-- VENTURE VI — spans col 3 -->
+      <div class="vc" style="grid-column:3/4;">
         <div class="v-status sbuild">⬡ Building</div>
         <div class="v-name">Venture VI</div>
         <p class="v-desc">Access to legal counsel in India is determined almost entirely by how much money you have. That's not a market inefficiency — it's a design flaw. AI makes it fixable.</p>
@@ -773,7 +792,7 @@ footer {
   <div class="wrap">
     <div class="approach-grid">
 
-      <div class="fu">
+      <div class="fu approach-sticky">
         <div class="sec-label"><span>//</span> How We Build</div>
         <h2 class="sec-head">The <em>Kinetic</em> Method</h2>
         <p class="sec-body">We don't incubate ideas. We weaponize them. A rigorous process that starts with broken systems and ends with category-defining companies.</p>
